@@ -25,8 +25,6 @@ pipeline {
         stage('Install eksctl') {
             steps {
                 script {
-	withCredentials([[
-			                    withAWS(awsCredentials: 'aws-eks-cred') {
                     // need to add a check to see if the file exists before installing, or check version against latest version
                     // need to change this to use jenkins agents (containers) instead of the master node                    
                     echo "Installing eksctl"
@@ -35,7 +33,7 @@ pipeline {
                     sh 'mv /tmp/eksctl ~/.local/bin/eksctl'                    
                     echo "Getting eksctl version"
                     sh '${BIN_PATH}/eksctl version'
-}
+
                 }                
             }
         }             
@@ -44,6 +42,7 @@ pipeline {
                 expression {
                     // check if the cluster exists, if it does, skip this stage
                     try {
+			                    
                         sh 'aws eks describe-cluster --name test-cluster-name --region us-east-1'
                         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
                             // if the cluster exists, this will not throw an error
@@ -59,7 +58,9 @@ pipeline {
             }
             steps {
                 echo "Creating EKS Cluster"
-                sh '${BIN_PATH}/eksctl create cluster -f cluster_config.yaml'       
+withAWS(awsCredentials: 'aws-eks-cred') {
+                sh '${BIN_PATH}/eksctl create cluster -f cluster_config.yaml' 
+}      
             }        
             post {                
                 failure {

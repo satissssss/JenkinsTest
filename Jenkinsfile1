@@ -25,6 +25,9 @@ pipeline {
         stage('Install eksctl') {
             steps {
                 script {
+	withCredentials([[
+			$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-eks-cred' ]]){	
                     // need to add a check to see if the file exists before installing, or check version against latest version
                     // need to change this to use jenkins agents (containers) instead of the master node                    
                     echo "Installing eksctl"
@@ -33,6 +36,7 @@ pipeline {
                     sh 'mv /tmp/eksctl ~/.local/bin/eksctl'                    
                     echo "Getting eksctl version"
                     sh '${BIN_PATH}/eksctl version'
+}
                 }                
             }
         }             

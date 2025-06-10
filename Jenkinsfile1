@@ -1,9 +1,3 @@
-// add the next two lines to configure the podtemplate
-podTemplate {
-    node('built-in') {                
-        echo "hello world"                
-    }
-}
             
 pipeline {
     agent any
@@ -14,43 +8,7 @@ pipeline {
     }
 
     stages {        
-           /*
-        stage('Run in kubernetes pod') {
-            agent {
-                kubernetes {                    
-                }                
-            }
-            steps {
-                // these steps will be run inside the kubernetes pod                
-                echo "Hello world, run this on the pod"   
-            }
-        }
-        
-        
-        stage('Agent Docker example') {
-            agent {
-                docker {
-                    image 'jenkins/jenkins:lts'                
-                }                                
-            }
-            steps {
-                // these steps will be run inside the jenkins/jenkins:lts container
-                sh 'node --eval "console.log(process.platform,process.env.CI)"'
-            }
-        } 
-        stage('Test Cart Docker Image') {
-            agent { 
-                dockerfile {
-                    filename 'Dockerfile.build_cart'
-                    dir 'pipeline/build_docker'
-                }                
-            }
-            steps {
-                // these steps will be run inside the docker container defined in the Dockerfile.build_cart
-                sh 'npm install'
-            }
-        } 
-        */   
+       
         stage('Install kubectl') {
             steps {            
                 // need to add a check to see if the file exists before installing, or check version against latest version                
@@ -142,6 +100,7 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 echo 'Deploying application to EKS Cluster'
+                // test push
             }
 
         }

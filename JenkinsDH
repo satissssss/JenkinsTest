@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+ parameters {
+        string(name: 'DOCKERHUB_USERNAME', defaultValue: 'satisssss', description: 'Dockerhub name')
+      string(name: 'DOCKERHUB_PASSWORD', defaultValue: '', description: 'Dockerhub password')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Checkout code from SCM
+                    checkout scm
+                    // Build Docker image
+                    sh 'docker build -t satisssss/mario-app:latest .'
+                    // Tag the image with your username and repository
+                    sh "docker tag satisssss/mario-app:latest satisssss/mario-app"
+                }
+            }
+        }
+        stage('Login to Docker Hub') {
+            steps {
+                script {
+                    // Login to Docker Hub
+                    sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}" // Replace with your credentials
+                }
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Push the image
+                    sh "docker push satisssss/mario-app:latest"
+                }
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Cleanup the built image
+                    sh "docker rmi satisssss/mario-app:latest"
+                }
+            }
+        }
+    }
+}

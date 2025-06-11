@@ -1,3 +1,4 @@
+            
 pipeline {
     agent any
 
@@ -35,23 +36,15 @@ pipeline {
 
                 }                
             }
+        }             
+        stage('deploy appl to K8s') {
+            steps {
+                    echo "deploy App"
+                    sh 'kubectl apply -f mario-pod.yaml'                          
+                    sh 'kubectl describe pod supermario-pod-capstone'
+                    sh 'kubectl expose pod supermario-pod-capstone --type=LoadBalancer --name=supermario-svc --port=80 --target-port=8080'
+                    sh 'kubectl get service'
+           }
         }
-    stages {        
-       
-        stage('Install kubectl') {
-            steps {    
-withCredentials([[
-			$class: 'AmazonWebServicesCredentialsBinding',
-                    credentialsId: 'aws-eks-cred' ]]){        
-                 echo "Install App"
-                sh 'kubectl apply -f https://github.com/aws-containers/retail-store-sample-app/releases/latest/download/kubernetes.yaml'
-                sh 'kubectl wait --for=condition=available deployments --all'                                     
-                echo "Check App status"                
-                sh 'kubectl get svc ui'                       
-            }
-}
-        }
-
-
-}    
+    }    
 }

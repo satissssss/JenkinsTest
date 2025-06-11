@@ -40,10 +40,10 @@ pipeline {
         stage('deploy appl to K8s') {
             steps {
                     echo "deploy App"
-                    sh 'kubectl apply -f mario-pod.yaml'                          
-                    sh 'kubectl describe pod supermario-pod-capstone'
-                    sh 'kubectl expose pod supermario-pod-capstone --type=LoadBalancer --name=supermario-svc --port=80 --target-port=8080'
-                    sh 'kubectl get service'
+                    sh '${BIN_PATH}/kubectl apply -f mario-pod.yaml'                          
+                    sh '${BIN_PATH}/kubectl describe pod supermario-pod-capstone'
+                    sh '${BIN_PATH}/kubectl expose pod supermario-pod-capstone --type=LoadBalancer --name=supermario-svc --port=80 --target-port=8080'
+                    sh '${BIN_PATH}/kubectl get service'
            }
         }
     }    

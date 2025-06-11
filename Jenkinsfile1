@@ -107,9 +107,9 @@ pipeline {
             steps {
                 echo 'Deploying application to EKS Cluster'
                 // test push
-            }*/
+            }
 
-        }
+        }*/
         //stage('Cleaning Workspace') {
         //    steps {
          //       cleanWs()

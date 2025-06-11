@@ -13,9 +13,9 @@ pipeline {
                     // Checkout code from SCM
                     checkout scm
                     // Build Docker image
-                    sh 'docker build -t satisssss/mario-app:latest .'
+                    sh 'docker build -t satisssss/sample-app:latest .'
                     // Tag the image with your username and repository
-                    sh "docker tag satisssss/mario-app:latest satisssss/mario-app"
+                    sh "docker tag satisssss/sample-app:latest satisssss/sample-app"
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     // Push the image
-                    sh "docker push satisssss/mario-app:latest"
+                    sh "docker push satisssss/sample-app:latest"
                 }
             }
         }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 script {
                     // Cleanup the built image
-                    sh "docker rmi satisssss/mario-app:latest"
+                    sh "docker rmi satisssss/sample:latest"
                 }
             }
         }

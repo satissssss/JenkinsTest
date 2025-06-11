@@ -39,11 +39,15 @@ pipeline {
         }             
         stage('deploy appl to K8s') {
             steps {
+withCredentials([[
+			$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-eks-cred' ]]){ 
                     echo "deploy App"
                     sh '${BIN_PATH}/kubectl apply -f mario-pod.yaml'                          
                     sh '${BIN_PATH}/kubectl describe pod supermario-pod-capstone'
                     sh '${BIN_PATH}/kubectl expose pod supermario-pod-capstone --type=LoadBalancer --name=supermario-svc --port=80 --target-port=8080'
                     sh '${BIN_PATH}/kubectl get service'
+ 			}
            }
         }
     }    

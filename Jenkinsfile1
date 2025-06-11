@@ -37,7 +37,7 @@ pipeline {
                 }                
             }
         }             
-        stage('Create EKS Cluster') {               
+/*        stage('Create EKS Cluster') {               
             when {
                 expression {
                     // check if the cluster exists, if it does, skip this stage
@@ -107,7 +107,7 @@ pipeline {
             steps {
                 echo 'Deploying application to EKS Cluster'
                 // test push
-            }
+            }*/
 
         }
         //stage('Cleaning Workspace') {

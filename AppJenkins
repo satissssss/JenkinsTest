@@ -9,13 +9,17 @@ pipeline {
     stages {        
        
         stage('Install kubectl') {
-            steps {            
+            steps {    
+withCredentials([[
+			$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-eks-cred' ]]){        
                  echo "Install App"
                 sh 'kubectl apply -f https://github.com/aws-containers/retail-store-sample-app/releases/latest/download/kubernetes.yaml'
                 sh 'kubectl wait --for=condition=available deployments --all'                                     
                 echo "Check App status"                
                 sh 'kubectl get svc ui'                       
             }
+}
         }
 
 

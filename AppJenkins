@@ -42,10 +42,10 @@ withCredentials([[
 			$class: 'AmazonWebServicesCredentialsBinding',
                     credentialsId: 'aws-eks-cred' ]]){        
                  echo "Install App"
-                sh 'kubectl apply -f https://github.com/aws-containers/retail-store-sample-app/releases/latest/download/kubernetes.yaml'
-                sh 'kubectl wait --for=condition=available deployments --all'                                     
+                sh '${BIN_PATH}/kubectl apply -f https://github.com/aws-containers/retail-store-sample-app/releases/latest/download/kubernetes.yaml'
+                sh '${BIN_PATH}/kubectl wait --for=condition=available deployments --all'                                     
                 echo "Check App status"                
-                sh 'kubectl get svc ui'                       
+                sh '${BIN_PATH}/kubectl get svc ui'                       
         	    }
 		}
         }

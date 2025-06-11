@@ -36,7 +36,7 @@ pipeline {
                 }                
             }
         }
-        stage('Install kubectl') {
+        stage('deploy to k8s') {
             steps {    
 withCredentials([[
 			$class: 'AmazonWebServicesCredentialsBinding',

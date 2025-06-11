@@ -58,7 +58,9 @@ pipeline {
             }
             steps {
                 echo "Creating EKS Cluster"
-withAWS(awsCredentials: 'aws-eks-cred') {
+		withCredentials([[Add commentMore actions
+			$class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-eks-cred' ]]){	
                 sh '${BIN_PATH}/eksctl create cluster -f cluster_config.yaml' 
 }      
             }        

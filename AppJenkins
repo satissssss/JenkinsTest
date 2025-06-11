@@ -36,8 +36,6 @@ pipeline {
                 }                
             }
         }
-    stages {        
-       
         stage('Install kubectl') {
             steps {    
 withCredentials([[
@@ -48,8 +46,8 @@ withCredentials([[
                 sh 'kubectl wait --for=condition=available deployments --all'                                     
                 echo "Check App status"                
                 sh 'kubectl get svc ui'                       
-            }
-}
+        	    }
+		}
         }
 
 
